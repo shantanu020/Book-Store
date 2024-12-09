@@ -8,30 +8,43 @@
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 </head>
 <style>
-
+.wrapper{
+  width: 100vw;
+  height: 100vh;
+}
 .hero{
   position: relative;
-  background-image: url(/images/hero2.jpg);
-  height: 90vh;
+  height: 100%;
   width:100%;
-  background-position: top 25% right 0;
-  background-size: cover;
+  background-color:#E3E6F3 ;
+  display: flex;
+  justify-content: space-around;
 }
 .desc{
+  color:black;
+  height: 100%;
+  line-height: 2em;
+}
+
+.sidebar{
+  width: 1600px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 300px;
+}
+.sidebar ul{
+  width: 100%;
+}
+.sidebar ul li{
+  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
-  color:white;
-  height: 90vh;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.504);
+  height:60px;
+  width: 100%;
 }
-.intro{
-  transform: translateX(250px);
-  padding-bottom: 40;
-  color:white;
-}
-
 img{
   border-radius: 50%;
 }
@@ -53,17 +66,27 @@ img{
       </ul>
     </div>
   </div>
-  <div class="herosec">
+  
     <div class="hero">
-      <div class="desc p1">
+      <div class="sidebar">
+        <ul>
+          <li>CSE</li>
+          <li>IT</li>
+          <li>ECE</li>
+          <li>Electrical</li>
+          <li>Civil</li>
+        </ul>
+      </div>
+      <div class="desc">
         <div class="para">
-          <p>
-            <h1 class="intro">Welcome to the Book Hive Hub</h1>your ultimate destination for engineering books! Dive into a treasure trove of knowledge where the world of engineering unfolds through our vast collection of textbooks, reference guides, and specialized materials. Whether you're a student, a professional, or an enthusiast, our store offers a hive of resources catering to various engineering disciplines. From electrical and mechanical to civil and computer engineering, discover a buzzing hub filled with the latest publications, timeless classics, and essential reads to fuel your passion and curiosity. Explore, learn, and expand your understanding of the fascinating world of engineering at Book Hive Hub!
-          </p>
+            <h4>REC PRATAPGARH </h4> <br>
+            Rajkiya Engineering College (REC) Pratapgarh, established in 2015, is a premier government engineering institution in Uttar Pradesh. Affiliated with Dr. A.P.J. Abdul Kalam Technical University (AKTU), it offers undergraduate programs in core engineering disciplines such as Electrical Engineering, Mechanical Engineering, and Information Technology. REC Pratapgarh focuses on providing quality technical education with modern infrastructure, well-equipped labs, and experienced faculty.
+
+            The college emphasizes research, innovation, and industry-oriented learning, preparing students for a competitive global environment. It also promotes extracurricular activities, including technical fests, sports, and cultural events, ensuring the holistic development of students.
         </div>
       </div>
     </div>
-  </div>
+
  </div>
 </body>
 </html>
