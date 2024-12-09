@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart Page</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(255, 255, 0, 0.249); 
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    img {
+      max-width: 80px;
+      max-height: 120px;
+    }
+
+    .quantity-buttons {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity-button {
+      background-color: #333;
+      color: white;
+      padding: 5px;
+      border: none;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="logo">
+        <img src="/images/logo.png" alt="Logo" >
+        <h1 class="web">BookHiveHub</h1>
+      </div>
+      <div class="navbar">
+        <ul class="nav">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="reg.html">Registration</a></li>
+          <li><a href="catalogue.html">Catalogue</a></li>
+          <li><a href="cart.html">Cart</a></li>
+        </ul>
+      </div>
+    </div>
+    <center>
+      <table>
+        <thead>
+          <tr>
+            <th>Cover Page</th>
+            <th>Title of the book</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="cartBody">
+          <!-- Cart items will be dynamically added here -->
+        </tbody>
+      </table>
+    <p id="totalBill">Total Bill: $0</p>
+    <button onclick="checkout()">Checkout</button>
+    <p id="continueShopping">Continue shopping if there is no bill.</p>
+    </center>
+  </div>
+  <script>
+    function getCartItems() {
+      var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+      return cartItems;
+    }
+
+    function displayCart() {
+      var cartBody = document.getElementById('cartBody');
+      var cartItems = getCartItems();
+
+      cartBody.innerHTML = '';
+
+      cartItems.forEach(function (item) {
+        var row = document.createElement('tr');
+        var total = item.price * item.quantity;
+
+        row.innerHTML = `
+          <td><img src="${getCoverImageUrl(item.bookName)}" alt="Book Cover"></td>
+          <td>${item.bookName}</td>
+          <td>${item.price}</td>
+          <td class="quantity-buttons">
+            <button class="quantity-button" onclick="decreaseQuantity('${item.bookName}', ${item.price})">-</button>
+            ${item.quantity}
+            <button class="quantity-button" onclick="increaseQuantity('${item.bookName}', ${item.price})">+</button>
+          </td>
+          <td>${total}</td>
+          <td><button onclick="removeFromCart('${item.bookName}', ${item.price})">Remove</button></td>
+        `;
+        cartBody.appendChild(row);
+      });
+
+      updateTotalBill();
+    }
+
+    function getCoverImageUrl(bookName) {
+      var coverImageUrls = {
+        'compiler design': '/images/cse1.jpg',
+        'computer fundamentals': '/images/cse2.jpg',
+        'cd': '/images/cse3.jpeg',
+        'alld': '/images/cse4.jpg',
+      };
+
+      return coverImageUrls[bookName] || 'placeholder.jpg';
+    }
+
+    function updateQuantity(bookName, price, newQuantity) {
+      newQuantity = Math.max(parseInt(newQuantity), 1);
+
+      var cartItems = getCartItems();
+
+      var existingItem = cartItems.find(function (item) {
+        return item.bookName === bookName && item.price === price;
+      });
+
+      if (existingItem) {
+        existingItem.quantity = newQuantity;
+      } else {
+        cartItems.push({
+          bookName: bookName,
+          price: price,
+          quantity: newQuantity
+        });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+
+      displayCart();
+    }
+
+    function decreaseQuantity(bookName, price) {
+      var cartItems = getCartItems();
+
+      var existingItem = cartItems.find(function (item) {
+        return item.bookName === bookName && item.price === price;
+      });
+
+      if (existingItem && existingItem.quantity > 1) {
+        existingItem.quantity--;
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        displayCart();
+      }
+    }
+
+    function increaseQuantity(bookName, price) {
+      var cartItems = getCartItems();
+
+      var existingItem = cartItems.find(function (item) {
+        return item.bookName === bookName && item.price === price;
+      });
+
+      if (existingItem) {
+        existingItem.quantity++;
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        displayCart();
+      }
+    }
+
+    function removeFromCart(bookName, price) {
+      var cartItems = getCartItems();
+
+      var updatedCart = cartItems.filter(function (item) {
+        return !(item.bookName === bookName && item.price === price);
+      });
+
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+      alert(`Removed ${bookName} from the cart. Price: $${price}`);
+
+      displayCart();
+    }
+
+    function updateTotalBill() {
+      var cartItems = getCartItems();
+      var totalBill = cartItems.reduce(function (total, item) {
+        return total + item.price * item.quantity;
+      }, 0);
+
+      document.getElementById('totalBill').textContent = 'Total Bill: $' + totalBill.toFixed(2);
+      document.getElementById('continueShopping').style.display = totalBill > 0 ? 'none' : 'block';
+    }
+
+    function checkout() {
+      var cartItems = getCartItems();
+
+      if (cartItems.length > 0) {
+        alert('Checkout completed!');
+      } else {
+        alert('Your cart is empty. Continue shopping.');
+      }
+    }
+
+    displayCart();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+   form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: rgba(255, 255, 0, 0.249);
+    }
+    input[type="text"],input[type="password"],input[type="date"],textarea{
+        width:calc(100% - 12px);
+        border-radius: 4px;
+        padding: 10px;
+    }
+    label,input[type="radio"],input[type="checkbox"]{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    button{
+      width:100px;
+    }
+    /* button{
+    padding: 12px 24px;
+    background-color: #669bbc;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    }
+    button:hover{
+        background-color:#088178;
+    } */
+    
+    button:hover{
+      color:white;
+        background-color:#088178;
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <div class="header">
+          <div class="logo">
+            <img src="/images/logo.png" alt="Logo" >
+            <h1>BookHiveHub</h1>
+          </div>
+          <div class="navbar">
+            <ul class="nav">
+              <li><a href="home.html">Home</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="reg.html">Registration</a></li>
+              <li><a href="catalogue.html">Catalogue</a></li>
+              <li><a href="cart.html">Cart</a></li>
+            </ul>
+          </div>
+        </div>
+        <form onsubmit="return validateForm()">
+            <input type="text" placeholder="Enter your name"><br><br>
+            <input type="password" placeholder="Enter Password"><br><br>
+            <input type="text" placeholder="Enter your email"><br><br>
+            <input type="text" placeholder="Enter your phone number"><br><br>      
+            <textarea id="address" name="address" rows="4" cols="50" placeholder="Enter you address"></textarea><br><br>
+            <label for="sex">Sex:</label> <br><br>
+            <label for="male">Male</label>
+            <input type="radio" id="male" name="sex" value="male">
+            <label for="female">Female</label>
+            <input type="radio" id="female" name="sex" value="female"> <br><br>
+            <label for="birthday">Birthday:</label><br><br>
+            <input type="date" id="birthday" name="birthday" min="1900-01-01" max="2023-12-31"><br><br>
+            <label for="languages">Languages known:</label><br><br>
+            <input type="checkbox" id="english" name="language" value="english">
+            <label for="english">English</label><br><br>
+            <input type="checkbox" id="telugu" name="language" value="telugu">
+            <label for="telugu">Telugu</label><br><br>
+            <input type="checkbox" id="hindi" name="language" value="hindi">
+            <label for="hindi">Hindi</label><br><br>
+            <input type="checkbox" id="tamil" name="language" value="tamil">
+            <label for="tamil">Tamil</label><br>
+            <center><button>Register</button></center>
+        </form>
+    </div>
+</body>
+<script>
+  function validateForm() {
+      var name = document.querySelector('input[type="text"][placeholder="Enter your name"]').value;
+      var password = document.querySelector('input[type="password"][placeholder="Enter Password"]').value;
+      var email = document.querySelector('input[type="text"][placeholder="Enter your email"]').value;
+      var phone = document.querySelector('input[type="text"][placeholder="Enter your phone number"]').value;
+
+      // Validate Name
+      if (!(/^[a-zA-Z]+$/.test(name)) || name.length < 6) {
+          alert('Name should contain alphabets and have a minimum length of 6 characters.');
+          return false;
+      }
+
+      // Validate Password
+      if (password.length < 6) {
+          alert('Password should have a minimum length of 6 characters.');
+          return false;
+      }
+
+      // Validate Email
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          alert('Please enter a valid email address.');
+          return false;
+      }
+
+      // Validate Phone Number
+      if (!/^\d{10}$/.test(phone)) {
+          alert('Phone number should contain 10 digits only.');
+          return false;
+      }
+
+      // If all validations pass, return true
+      return true;
+  }
+</script>
+
+</html>
